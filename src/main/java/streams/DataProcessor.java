@@ -8,37 +8,37 @@ public class DataProcessor {
 
 
     public static boolean atLeastOneGradeA(Student student) {
-        return false;
+        return student.getGrades().stream().anyMatch(grade -> GradeType.A == grade.getType());
     }
 
 
     public static List<Integer> getStudentAges(List<Student> students) {
-        return new ArrayList<>();
+        return students.stream().map(Student::getAge).toList();
     }
 
     public static List<Student> getStudentsWithMinimumAge(List<Student> students, int minAge) {
-        return new ArrayList<>();
+        return students.stream().filter(student -> minAge <= student.getAge()).toList();
     }
 
 
     // getGender() == Gender.MALE
     // or getGender().name().equals("MALE")
     public static long countMaleStudents(List<Student> students) {
-        return 0;
+        return students.stream().filter(student -> Gender.MALE == student.getGender()).count();
     }
 
 
     public static double avgAgeOfFemaleStudent(List<Student> students) {
-        return 0.0;
+        return students.stream().filter(student -> Gender.FEMALE == student.getGender()).mapToInt(Student::getAge).average().getAsDouble();
     }
 
     public static Integer getProductOfStudentAges(List<Student> students) {
-        return 0;
+        return students.stream().map(Student::getAge).reduce(1, (firstStudent, secondStudent) -> firstStudent * secondStudent);
     }
 
     // ignore F Grades
     public static double productOfStudentGrades(Student student) {
-        return 0.0;
+        return student.getGrades().stream().filter(grade -> GradeType.F != grade.getType()).map(grade -> grade.getType().getValue()).reduce(1, (firstStudent, secondStudent) -> firstStudent * secondStudent);
     }
 
     // region BONUS
